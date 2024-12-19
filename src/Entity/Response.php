@@ -24,7 +24,7 @@ class Response
     private ?Topic $topic = null;
 
     #[ORM\ManyToOne(inversedBy: 'responses')]
-    private ?User $user = null;
+    private ?User $author = null;
 
     public function getId(): ?int
     {
@@ -67,14 +67,14 @@ class Response
         return $this;
     }
 
-    public function getUser(): ?User
+    public function getAuthor(): ?User
     {
-        return $this->user;
+        return $this->author;
     }
 
-    public function setUser(?User $user): static
+    public function setAuthor(?User $author): static
     {
-        $this->user = $user;
+        $this->author = $author;
 
         return $this;
     }

@@ -36,7 +36,7 @@ class User
     /**
      * @var Collection<int, Response>
      */
-    #[ORM\OneToMany(targetEntity: Response::class, mappedBy: 'user')]
+    #[ORM\OneToMany(targetEntity: Response::class, mappedBy: 'author')]
     private Collection $responses;
 
     public function __construct()
