@@ -1,0 +1,54 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="max-w-7xl mx-auto mt-10">
+  
+        <h1 class="text-4xl font-extrabold text-gray-900 text-center mb-6">
+            Bienvenue sur le Forum
+        </h1>
+
+        <div class="flex justify-center">
+            <div class="w-full max-w-5xl p-8 bg-white shadow-lg rounded-lg border border-gray-200">
+                <h2 class="text-2xl font-bold text-gray-800 mb-4">Règles du Forum</h2>
+                <p class="text-gray-600 mb-6">
+                    Afin de garantir une expérience agréable pour tous, merci de respecter les règles suivantes :
+                </p>
+                <ul class="list-disc pl-6 space-y-2 text-gray-700">
+                    <li>
+                        <strong>Respect et courtoisie :</strong> Soyez respectueux envers les autres membres, même en cas de désaccord.
+                    </li>
+                    <li>
+                        <strong>Pas de spam :</strong> Évitez les messages publicitaires, les promotions non sollicitées ou les spams.
+                    </li>
+                    <li>
+                        <strong>Contenu approprié :</strong> N'écrivez pas de messages contenant de la violence, des propos haineux ou du contenu offensant.
+                    </li>
+                    <li>
+                        <strong>Utilisez des titres clairs :</strong> Donnez un titre explicite à vos sujets pour faciliter la recherche.
+                    </li>
+                    <li>
+                        <strong>Pas de double post :</strong> Si vous avez oublié d'ajouter quelque chose, éditez votre message plutôt que de publier un nouveau.
+                    </li>
+                    <li>
+                        <strong>Respectez les catégories :</strong> Postez vos sujets dans les sections appropriées du forum.
+                    </li>
+                    <li>
+                        <strong>Signalez les abus :</strong> Si vous voyez un contenu inapproprié, utilisez le bouton de signalement.
+                    </li>
+                </ul>
+                <div class="mt-6 text-center">
+                    <p class="text-gray-600">
+                    Merci de votre coopération et bon échange sur le forum ! 🚀
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="flex justify-center mt-8">
+            <a href="/decouvrir" class="px-6 py-3 bg-blue-600 text-white text-lg font-semibold rounded-lg shadow hover:bg-blue-700 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition">
+                Commencer
+            </a>
+        </div>
+    </div>
+
+{% endblock %}
