@@ -14,7 +14,7 @@ class CategoryController extends AbstractController
     #[Route('/category', name: 'app_category')]
     public function category(CategoryRepository $categoryRepository): Response
     {
-        return $this->render('category/index.html.twig', [
+        return $this->render('category/all.html.twig', [
             'categories' => $categoryRepository->findAll(),
         ]);
     }
