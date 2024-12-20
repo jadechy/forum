@@ -8,6 +8,7 @@ use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 use App\Repository\CategoryRepository;
+use App\Repository\LanguageRepository;
 
 #[Route('/admin')]
 #[IsGranted('ROLE_ADMIN')]
@@ -24,6 +25,14 @@ class AdminController extends AbstractController
     {
         return $this->render('admin/category.html.twig', [
             'categories' => $categoryRepository->findAll(),
+        ]);
+    }
+
+    #[Route('/language', name: 'admin_language')]
+    public function adminLanguages(LanguageRepository $languageRepository): Response
+    {
+        return $this->render('admin/language.html.twig', [
+            'languages' => $languageRepository->findAll(),
         ]);
     }
 }
