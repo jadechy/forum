@@ -1,0 +1,34 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <section>
+        <div>{{topic.title}}</div>
+        <div>Par : {{topic.author.username}}</div>
+        <div>Category : {{topic.category.name}}</div>
+        <div>Langue : {{topic.language.name}}</div>
+        </div>{{topic.description}}</div>
+
+        <div>
+            {% for response in topic.responses %}
+                <p>{{response.content}}</p>
+            {% endfor %}
+        </div>
+        {{ form_start(form) }}
+            <div class="mt-9 bg-gray-100 p-4 rounded-lg">
+                <h3 class="text-center text-md font-bold my-4">Souhaitez-vous apporter une réponse ?</h3>
+                <div class="relative">
+                    {{ form_widget(form.content) }}
+                </div>
+                {# <div>
+                    <span class="opacity-50 text-xs italic mt-4 block">* Votre commentaire sera publié et visible par tous après avoir été analysé par notre système.</span>
+                </div> #}
+                <div class="flex items-center justify-center mt-2">
+                    <button type="submit" class="relative mt-5 bg-blue-700 flex-row p-2 items-center justify-center rounded-md text-sm overflow-hidden border cursor-pointer transition text-white hover:opacity-90 hover:scale-105 w-fit">
+                        {{ button_label|default('Ajouter votre réponse') }}
+                    </button>
+                </div>
+            </div>
+        {{ form_end(form) }}
+            
+    </section>
+{% endblock %}
