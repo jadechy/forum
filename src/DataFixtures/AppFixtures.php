@@ -8,6 +8,7 @@ use App\Entity\Response;
 use App\Entity\User;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class AppFixtures extends Fixture
 {
@@ -19,11 +20,13 @@ class AppFixtures extends Fixture
 
     public const MAX_RESPONSES_PER_TOPICS = 5;
 
+    public function __construct(protected UserPasswordHasherInterface $passwordHasher)
+    {
+    }
+
     public function load(ObjectManager $manager): void
     {
-        // $product = new Product();
-        // $manager->persist($product);
-
+       
         $users = [];
         $categories = [];
         $languages = [];
@@ -53,7 +56,12 @@ class AppFixtures extends Fixture
             $user = new User();
             $user->setEmail(email: "user_$i@example.com");
             $user->setUsername(username: "user_$i");
-            $user->setPassword('coucou');
+            $hashedPassword = $this->passwordHasher->hashPassword(
+                $user,
+                'coucou'
+            );
+
+            $user->setPassword(password: $hashedPassword);
             $user->setRoles(['ROLE_USER']);
 
             $users[] = $user;
@@ -71,7 +79,12 @@ class AppFixtures extends Fixture
             $user = new User();
             $user->setEmail(email: "user_$i@example.com");
             $user->setUsername(username: "user_$i");
-            $user->setPassword('admin');
+            $hashedPassword = $this->passwordHasher->hashPassword(
+                $user,
+                'admin'
+            );
+
+            $user->setPassword(password: $hashedPassword);
             $user->setRoles(['ROLE_USER','ROLE_ADMIN']);
 
             $users[] = $user;
@@ -89,7 +102,12 @@ class AppFixtures extends Fixture
             $user = new User();
             $user->setEmail(email: "user_$i@example.com");
             $user->setUsername(username: "user_$i");
-            $user->setPassword('banned');
+            $hashedPassword = $this->passwordHasher->hashPassword(
+                $user,
+                'banned'
+            );
+
+            $user->setPassword(password: $hashedPassword);
             $user->setRoles(['ROLE_BANNED']);
 
             $users[] = $user;
