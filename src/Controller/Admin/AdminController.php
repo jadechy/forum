@@ -9,6 +9,8 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 use App\Repository\CategoryRepository;
 use App\Repository\LanguageRepository;
+use App\Repository\UserRepository;
+use App\Repository\ResponseRepository;
 
 #[Route('/admin')]
 #[IsGranted('ROLE_ADMIN')]
@@ -33,6 +35,22 @@ class AdminController extends AbstractController
     {
         return $this->render('admin/language.html.twig', [
             'languages' => $languageRepository->findAll(),
+        ]);
+    }
+
+    #[Route('/user', name: 'admin_user')]
+    public function adminUsers(UserRepository $userRepository): Response
+    {
+        return $this->render('admin/user.html.twig', [
+            'users' => $userRepository->findAll(),
+        ]);
+    }
+
+    #[Route('/response', name: 'admin_response')]
+    public function adminResponse(ResponseRepository $responseRepository): Response
+    {
+        return $this->render('admin/response.html.twig', [
+            'responses' => $responseRepository->findAll(),
         ]);
     }
 }
