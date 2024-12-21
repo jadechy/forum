@@ -3,7 +3,7 @@
 namespace App\Controller\Admin;
 
 use App\Entity\Response;
-use App\Form\Response1Type;
+use App\Enum\ResponseStatusEnum;
 use App\Repository\ResponseRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -33,5 +33,21 @@ final class ResponseController extends AbstractController
         }
 
         return $this->redirectToRoute('admin_response', [], HttpResponse::HTTP_SEE_OTHER);
+    }
+
+    #[Route('/{id}/status/{status}', name: 'response_change_status', methods: ['POST'])]
+    public function changeStatus(Response $response, string $status, EntityManagerInterface $entityManager): HttpResponse
+    {
+
+        if (!in_array($status, array_map(fn($enum) => $enum->value, ResponseStatusEnum::cases()), true)) {
+            throw $this->createNotFoundException('Statut non valide');
+        }        
+
+        $response->setStatus(ResponseStatusEnum::from($status));
+
+        $entityManager->persist($response);
+        $entityManager->flush();
+
+        return $this->redirectToRoute('app_topic', ['id' => $response->getTopic()->getId()], HttpResponse::HTTP_SEE_OTHER);
     }
 }

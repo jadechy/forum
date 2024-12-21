@@ -11,6 +11,7 @@ use App\Repository\CategoryRepository;
 use App\Repository\LanguageRepository;
 use App\Repository\UserRepository;
 use App\Repository\ResponseRepository;
+use App\Repository\TopicRepository;
 
 #[Route('/admin')]
 #[IsGranted('ROLE_ADMIN')]
@@ -51,6 +52,14 @@ class AdminController extends AbstractController
     {
         return $this->render('admin/response.html.twig', [
             'responses' => $responseRepository->findAll(),
+        ]);
+    }
+
+    #[Route('/topic', name: 'admin_topic')]
+    public function adminTopic(TopicRepository $topicRepository): Response
+    {
+        return $this->render('admin/topic.html.twig', [
+            'topics' => $topicRepository->findAll(),
         ]);
     }
 }

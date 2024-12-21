@@ -6,6 +6,8 @@ use App\Entity\Language;
 use App\Entity\Category;
 use App\Entity\Response;
 use App\Entity\User;
+use App\Enum\TopicStatusEnum;
+use App\Enum\ResponseStatusEnum;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
@@ -77,8 +79,8 @@ class AppFixtures extends Fixture
     {
         for ($i = self::MAX_USERS; $i < self::MAX_USERS + self::MAX_ADMIN_USERS; $i++) {
             $user = new User();
-            $user->setEmail(email: "user_$i@example.com");
-            $user->setUsername(username: "user_$i");
+            $user->setEmail(email: "admin_$i@example.com");
+            $user->setUsername(username: "admin_$i");
             $hashedPassword = $this->passwordHasher->hashPassword(
                 $user,
                 'admin'
@@ -161,8 +163,10 @@ class AppFixtures extends Fixture
             $topic = new Topic();
 
             $topic->setTitle(title: "Topic n°$j");
-            $topic->setDescription(description: "Description $j");
+            $topic->setShortDescription(shortDescription: "Short description $j");
+            $topic->setLongDescription(longDescription: "Long description $j");
             $topic->setCreatedAt(createdAt: new \DateTimeImmutable());
+            $topic->setStatus(random_int(0, 1) === 1 ? TopicStatusEnum::OPEN : TopicStatusEnum::WAITING);
             $manager->persist(object: $topic);
             $topics[] = $topic;
         }
@@ -177,6 +181,7 @@ class AppFixtures extends Fixture
                 $response->setAuthor($users[array_rand($users)]);
                 $response->setContent("Réponse $i");
                 $response->setCreatedAt(createdAt: new \DateTimeImmutable());
+                $response->setStatus(random_int(0, 1) === 1 ? ResponseStatusEnum::VALIDATED : ResponseStatusEnum::WAITING);
                 $response->setTopic($topic);
 
                 $manager->persist($response);

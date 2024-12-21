@@ -3,9 +3,8 @@
 {% import 'macro/category_card.html.twig' as macros %}
 
 {% block body %}
-    <div class="flex min-h-screen 2xl:max-w-screen-2xl 2xl:mx-auto">
-        
-        <section class="mt-9">
+    <main class="flex-1 py-10 px-5 sm:px-10">    
+        <section>
             <div class="flex items-center justify-between">
                 <span class="font-semibold text-gray-700 text-base">Recommandations par catégories</span>
             </div>
@@ -16,5 +15,5 @@
                 {% endfor %}
             </div>
         </section>
-    </div>
+    </main>
 {% endblock %}

@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Enum\TopicStatusEnum;
 use App\Repository\TopicRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -20,7 +21,13 @@ class Topic
     private ?string $title = null;
 
     #[ORM\Column(type: Types::TEXT)]
-    private ?string $description = null;
+    private string $shortDescription;
+
+    #[ORM\Column(type: Types::TEXT)]
+    private string $longDescription;
+
+    #[ORM\Column(enumType: TopicStatusEnum::class)]
+    private TopicStatusEnum $status;
 
     #[ORM\ManyToOne(inversedBy: 'topics')]
     private ?Category $category = null;
@@ -62,14 +69,38 @@ class Topic
         return $this;
     }
 
-    public function getDescription(): ?string
+    public function getShortDescription(): string
     {
-        return $this->description;
+        return $this->shortDescription;
     }
 
-    public function setDescription(string $description): static
+    public function setShortDescription(string $shortDescription): static
     {
-        $this->description = $description;
+        $this->shortDescription = $shortDescription;
+
+        return $this;
+    }
+
+    public function getLongDescription(): string
+    {
+        return $this->longDescription;
+    }
+
+    public function setLongDescription(string $longDescription): static
+    {
+        $this->longDescription = $longDescription;
+
+        return $this;
+    }
+
+    public function getStatus(): TopicStatusEnum
+    {
+        return $this->status;
+    }
+
+    public function setStatus(TopicStatusEnum $status): static
+    {
+        $this->status = $status;
 
         return $this;
     }

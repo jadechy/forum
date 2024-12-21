@@ -1,0 +1,87 @@
+{% macro afficheReponse(response, topic) %}
+<li class="mt-4 list-none">
+    <div class="p-4 rounded-lg {{ response.author == topic.author ? 'bg-blue-100' : ('ROLE_ADMIN' in response.author.roles ? 'bg-purple-100' : 'bg-gray-100') }}">
+        <div class="flex items-center">
+            {# <img src="https://random.imagecdn.app/100/100?a" class="w-10 h-10 rounded-full" alt=""> #}
+            <div class="ml-4 w-full flex items-center justify-between">
+                <div>
+                    <span class="font-medium">{{response.author.username}}</span>
+                    <span class="text-xs text-gray-500 flex items-center justify-between w-full">
+                        <span>Il y a 2 jours</span>
+                        <span></span>
+                    </span>
+                </div>
+                <div class="flex gap-4 items-center">
+                    <div>
+                        {% if response.author == topic.author  %}
+                            <span class="py-1.5 px-2.5 bg-blue-500/30 rounded-full flex w-20 justify-center items-center gap-1">
+                                <p class="font-medium text-xs text-blue-600">Auteur</p>
+                            </span>
+                        {% elseif 'ROLE_ADMIN' in response.author.roles %}
+                            <span class="py-1.5 px-2.5 bg-purple-500/30 rounded-full flex w-auto justify-center items-center gap-1">
+                                <p class="font-medium text-xs text-purple-600">Administrateur</p>
+                            </span>
+                        {% endif %}
+                    </div>
+                    <div>
+                        {% if response.status.value == 'validated' %}
+                            <span class="py-1.5 px-2.5 bg-green-500/30 rounded-full flex w-20 justify-center items-center gap-1">
+                                <p class="font-medium text-xs text-green-600">Validé</p>
+                            </span>
+                        {% elseif response.status.value == 'rejected' %}
+                            <span class="py-1.5 px-2.5 bg-red-500/30 rounded-full flex w-20 justify-center items-center gap-1">
+                                <p class="font-medium text-xs text-red-600">Rejeté</p>
+                            </span>
+                        {% elseif response.status.value == 'waiting' %}
+                            <span class="py-1.5 px-2.5 bg-orange-500/30 rounded-full flex w-20 justify-center items-center gap-1">
+                                <p class="font-medium text-xs text-orange-600">En attente</p>
+                            </span>
+                        {% endif %}
+                    </div>
+                    {# <div>
+                        {% if app.user == response.author %}
+                            <span class="p-1.5 bg-gray-500/30 rounded-full flex justify-center items-center gap-1">
+                                <a>
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-4">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L6.832 19.82a4.5 4.5 0 0 1-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 0 1 1.13-1.897L16.863 4.487Zm0 0L19.5 7.125" />
+                                    </svg>
+                                </a>
+                            </span>
+                        {% endif %}
+                    </div> #}
+                </div>
+            </div>
+        </div>
+        <p class="mt-4 w-full">{{response.content}}</p>
+
+        {% if app.user and 'ROLE_ADMIN' in app.user.roles %}
+            <ul class="flex items-center mt-2 gap-4">
+                {% if response.status.value == 'waiting' %}
+                    <li>
+                        <form method="POST" action="{{ path('response_change_status', { id: response.id, status: 'validated' }) }}">
+                            <button type="submit" class="relative mt-5 bg-green-700 flex-row p-2 items-center justify-center rounded-md text-sm overflow-hidden border cursor-pointer transition text-white hover:opacity-90 hover:scale-105 w-fit">
+                                Validé
+                            </button>
+                        </form>
+                    </li>
+                    <li>
+                        <form method="POST" action="{{ path('response_change_status', { id: response.id, status: 'rejected' }) }}">
+                            <button type="submit" class="relative mt-5 bg-red-700 flex-row p-2 items-center justify-center rounded-md text-sm overflow-hidden border cursor-pointer transition text-white hover:opacity-90 hover:scale-105 w-fit">
+                                Rejeté
+                            </button>
+                        </form>
+                    </li>
+                {% elseif response.status.value == 'rejected' %}
+                    <li>
+                        <form method="POST" action="{{ path('response_change_status', { id: response.id, status: 'validated' }) }}">
+                            <button type="submit" class="relative mt-5 bg-green-700 flex-row p-2 items-center justify-center rounded-md text-sm overflow-hidden border cursor-pointer transition text-white hover:opacity-90 hover:scale-105 w-fit">
+                                Validé
+                            </button>
+                        </form>
+                    </li>
+                {% endif %}
+            </ul>
+        {% endif %}
+    </div>
+</li>
+{% endmacro %}
